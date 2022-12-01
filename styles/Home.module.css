@@ -104,7 +104,8 @@
 }
 
 .logo {
-  height: 1em;
+  /* height: 1em; */
+  text-transform: uppercase;
   margin-left: 0.5rem;
 }
 

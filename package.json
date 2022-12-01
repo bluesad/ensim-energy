@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "export": "next export",
+    "preexport": "rm -rf out && npm run build",
+    "deploy": "gh-pages -b gh-pages -d out",
+    "predeploy": "npm run export",
+    "deploy2": "git add out/ && git commit -m \"Deploy\" && git push origin :gh-pages && git subtree push --prefix out origin gh-pages && git reset --hard HEAD~1"
   },
   "dependencies": {
     "@types/node": "18.11.9",
@@ -18,5 +23,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "typescript": "4.9.3"
+  },
+  "devDependencies": {
+    "gh-pages": "^4.0.0"
   }
 }
