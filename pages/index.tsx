@@ -7,20 +7,42 @@ import {
   Avatar,
   Input,
   Image,
+  Button,
+  Link,
 } from "@nextui-org/react";
 import { Layout } from "../components/Layout";
 import { SearchIcon } from "../components/SearchIcon";
-import { useContext, useRef } from "react";
-import AppContext from "../components/Context";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { EmailIcon } from "../components/EmailIcon";
+import { useAppContext } from "../components/AppContext";
 
 export default function Home() {
   const { isDark } = useTheme();
-  const context = useContext<any>(AppContext);
-  const jumpToCompanyIntro = () => {
-    const {session} = context;
-    session.current &&
-    session.current.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
+  const [introRef, setIntroRef] = useState<any>();
+  const [productRef, setProductRef] = useState<any>();
+  const [contactRef, setContactRef] = useState<any>();
+  const { introRef: iRef, productRef: pRef, contactRef: cRef } = useAppContext() as {
+    introRef: React.Ref<HTMLElement>;
+    productRef: React.Ref<HTMLElement>;
+    contactRef: React.Ref<HTMLElement>;
+  };
+  const jumpToCompanyIntro = useCallback(() => {
+    introRef?.current &&
+      introRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [introRef?.current]);
+  const jumpToProduct = useCallback(() => {
+    productRef?.current &&
+      productRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [productRef?.current]);
+  const jumpToContact = useCallback(() => {
+    contactRef?.current &&
+      contactRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [contactRef?.current]);
+  useEffect(() => {
+    if (iRef) setIntroRef(iRef);
+    if (pRef) setProductRef(pRef);
+    if (cRef) setContactRef(cRef);
+  }, [iRef, pRef, cRef]);
   return (
     <>
       <Head>
@@ -54,17 +76,19 @@ export default function Home() {
               width="100%"
               css={{ paddingRight: 24 }}
             />
-            
+
             <Navbar.Content
               enableCursorHighlight
               activeColor="primary"
               hideIn="xs"
               variant="highlight-rounded"
             >
-              <Navbar.Link href="#" onClick={jumpToCompanyIntro}>About Ensim Energy</Navbar.Link>
-              <Navbar.Link href="#">Energy</Navbar.Link>
-              <Navbar.Link href="#">Contact Us</Navbar.Link>
-              <Navbar.Link href="#">Social Media</Navbar.Link>
+              <Navbar.Link onClick={jumpToCompanyIntro}>
+                About Ensim Energy
+              </Navbar.Link>
+              <Navbar.Link onClick={jumpToProduct}>Energy</Navbar.Link>
+              <Navbar.Link onClick={jumpToContact}>Contact Us</Navbar.Link>
+              <Navbar.Link>Social Media</Navbar.Link>
             </Navbar.Content>
           </Navbar.Brand>
           {/* <Navbar.Content>
@@ -95,6 +119,7 @@ export default function Home() {
             >
               <Input
                 clearable
+                rounded
                 contentLeft={
                   <SearchIcon fill="var(--nextui-colors-accents6)" size={16} />
                 }
@@ -121,7 +146,7 @@ export default function Home() {
                     as="button"
                     color="primary"
                     size="md"
-                    src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                    src="https://mdbcdn.b-cdn.net/img/new/avatars/8.webp"
                   />
                 </Dropdown.Trigger>
               </Navbar.Item>
@@ -140,14 +165,6 @@ export default function Home() {
                 </Dropdown.Item>
                 <Dropdown.Item key="settings" withDivider>
                   My Settings
-                </Dropdown.Item>
-                <Dropdown.Item key="team_settings">Team Settings</Dropdown.Item>
-                <Dropdown.Item key="analytics" withDivider>
-                  Analytics
-                </Dropdown.Item>
-                <Dropdown.Item key="system">System</Dropdown.Item>
-                <Dropdown.Item key="configurations">
-                  Configurations
                 </Dropdown.Item>
                 <Dropdown.Item key="help_and_feedback" withDivider>
                   Help & Feedback

@@ -1,6 +1,19 @@
-import { Button, Text } from "@nextui-org/react";
+import { Button, Text, Input, Textarea } from "@nextui-org/react";
+import { useState } from "react";
+import { useAppContext } from "./AppContext";
 
 export default function Contact() {
+  const { contactRef } = useAppContext() as {
+    contactRef: React.Ref<HTMLHeadingElement>;
+  };
+  const [message, updateMessage] = useState("");
+  const [sender, updateSender] = useState("");
+  const sendEmail = () => {
+    window.open(
+      `mailto:enquries@ensim-energy.com?subject=Hello from ${sender}&body=${message}`
+    );
+  };
+  const [isHovered, setHovered] = useState(false);
   return (
     <>
       {/*
@@ -14,7 +27,10 @@ export default function Contact() {
       <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="w-full max-w-md space-y-8">
           <div>
-            <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-white">
+            <h2
+              className="mt-6 text-center text-3xl font-bold tracking-tight text-white"
+              ref={contactRef}
+            >
               Contact Us{" "}
             </h2>
           </div>
@@ -31,8 +47,9 @@ export default function Contact() {
                   type="text"
                   autoComplete="name"
                   required
-                  className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                  className="bg-sky-800 text-neutral-50 relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                   placeholder="Name"
+                  onChange={(e) => updateSender(e.currentTarget.value)}
                 />
               </div>
               <div>
@@ -45,7 +62,7 @@ export default function Contact() {
                   type="email"
                   autoComplete="email"
                   required
-                  className="relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                  className="bg-sky-800 text-neutral-50 relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                   placeholder="Email address"
                 />
               </div>
@@ -57,22 +74,28 @@ export default function Contact() {
                   id="message"
                   name="message"
                   rows={3}
-                  className="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                  className="bg-sky-800 text-neutral-50 relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                   // className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   placeholder="Message"
                   defaultValue={""}
+                  onChange={(e) => updateMessage(e.currentTarget.value)}
                 />
               </div>
             </div>
 
             <div>
               <Button
+                shadow={isHovered}
+                onMouseOver={() => setHovered(true)}
+                onMouseOut={() => setHovered(false)}
+                ghost
                 // flat
                 auto
                 rounded
                 color="success"
-                css={{width: "100%",}}
+                css={{ width: "100%" }}
                 // css={{ color: "#ffffff", bg: "#0F9549" }}
+                onClick={sendEmail}
               >
                 <Text
                   css={{ color: "inherit" }}

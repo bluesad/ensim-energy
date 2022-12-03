@@ -21,7 +21,7 @@ export const Product = ({ imgSrc }: { imgSrc: string }) => (
             EnSim{" "}
           </Text>
           <Text
-            css={{ color: "$accents1", fontWeight: "$semibold", fontSize: "$lg", textAlign: "center" }}
+            css={{ color: "$accents1", fontWeight: "$semibold", fontSize: "$lg", textAlign: "center", p:0, m: 0 }}
           >
             Energy Simplified
           </Text>

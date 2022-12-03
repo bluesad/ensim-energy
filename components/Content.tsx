@@ -19,10 +19,21 @@ import { Profile } from "./Profile";
 import { Product } from "./Product";
 import Contact from "./Contact";
 import { SearchIcon } from "./SearchIcon";
-import { CameraIcon } from "./CameraIcon";
-import { RefObject, useContext, useEffect, useRef } from "react";
+import { EmailIcon } from "./EmailIcon";
+import { Ref, RefObject, useContext, useEffect, useRef, useState } from "react";
+import { FacebookIcon } from "./FacebookIcon";
+import { TwitterIcon } from "./TwitterIcon";
+import { InstaIcon } from "./InstaIcon";
+import { PinterestIcon } from "./PinterestIcon";
+import { YoutubeIcon } from "./YoutubeIcon";
+import { TiktokIcon } from "./TiktokIcon";
+import { useAppContext } from "./AppContext";
 
 export const Content = () => {
+  const { introRef, productRef } = useAppContext() as {
+    introRef: Ref<HTMLElement>;
+    productRef: Ref<HTMLElement>;
+  };
   return (
     <>
       <Box
@@ -37,7 +48,7 @@ export const Content = () => {
         <Banner />
       </Box>
       <Grid.Container
-        gap={2}
+        // gap={2}
         justify="center"
         css={{
           px: "6%",
@@ -48,6 +59,7 @@ export const Content = () => {
       >
         <Grid xs={12} md={4} sm={5}>
           <Text
+            ref={introRef}
             h1
             css={{
               textGradient: "45deg, $blue800 20%, $green600 80%",
@@ -110,6 +122,7 @@ export const Content = () => {
         <Grid.Container>
           <Grid xs={12} sm={4}>
             <Text
+              ref={productRef}
               h1
               css={{
                 textGradient: "45deg, $green50 20%, $green600 80%",
@@ -216,9 +229,14 @@ export const Content = () => {
         </Navbar.Link> */}
           <Button
             light
-            icon={<CameraIcon fill="currentColor" />}
+            icon={<EmailIcon fill="#008800" />}
             color="success"
             css={{ width: 280 }}
+            onClick={() => {
+              window.open(
+                "mailto:enquries@ensim-energy.com?subject=Enquery%20on%20EnSim&body="
+              );
+            }}
           >
             enquries@ensim-energy.com
           </Button>
@@ -241,6 +259,7 @@ export const Content = () => {
           >
             <Input
               clearable
+              rounded
               contentLeft={
                 <SearchIcon fill="var(--nextui-colors-accents6)" size={16} />
               }
@@ -260,6 +279,40 @@ export const Content = () => {
             />
           </Navbar.Item>
         </Navbar.Content>
+        <Navbar.Content hideIn="xs">
+          <div className="flex justify-center space-x-2 text-gray-700">
+            <Button
+              auto
+              light
+              icon={<FacebookIcon fill="currentColor" stroke="white" />}
+            />
+            <Button
+              auto
+              light
+              icon={<TwitterIcon fill="currentColor" stroke="white" />}
+            />
+            <Button
+              auto
+              light
+              icon={<InstaIcon fill="currentColor" stroke="white" />}
+            />
+            <Button
+              auto
+              light
+              icon={<PinterestIcon fill="currentColor" stroke="white" />}
+            />
+            <Button
+              auto
+              light
+              icon={<YoutubeIcon fill="currentColor" stroke="white" />}
+            />
+            <Button
+              auto
+              light
+              icon={<TiktokIcon fill="currentColor" stroke="white" />}
+            />
+          </div>
+        </Navbar.Content>
       </Navbar>
       <Box
         css={{
@@ -272,7 +325,7 @@ export const Content = () => {
       >
         <Contact />
       </Box>
-      <Grid.Container gap={2}>
+      <Grid.Container>
         <Card.Divider />
         <Card.Footer
           css={{

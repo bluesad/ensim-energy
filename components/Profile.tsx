@@ -1,7 +1,7 @@
 import { Card, Col, Text } from "@nextui-org/react";
 
 export const Profile = ({imgSrc}: {imgSrc: string}) => (
-  <Card>
+  <Card css={{m: 16}}>
     <Card.Header css={{ position: "absolute", zIndex: 1, top: 5 }}>
       <Col>
         <Text size={12} weight="bold" transform="uppercase" color="#ffffffAA">
