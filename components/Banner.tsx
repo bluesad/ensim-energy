@@ -1,15 +1,32 @@
 import { Card, Col, Row, Button, Text } from "@nextui-org/react";
-import { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { useAppContext } from "./AppContext";
 
 export const Banner = ({ className }: { className?: string }) => {
   const [isHovered, setHovered] = useState(false);
-  
+  const { productRef: pRef } = useAppContext() as {
+    productRef: React.Ref<HTMLElement>;
+  };
+
+  const [productRef, setProductRef] = useState<any>();
+
   const onMouseOver = () => {
     setHovered(true);
   };
   const onMouseOut = () => {
     setHovered(false);
   };
+
+  const jumpToProduct = useCallback(() => {
+    productRef?.current &&
+      productRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [productRef?.current]);
+
+  useEffect(() => {
+    if (pRef) {
+      setProductRef(pRef);
+    }
+  }, [pRef]);
   return (
     <Card className={className} css={{ w: "100%", h: "400px" }}>
       <Card.Header css={{ position: "absolute", zIndex: 1, top: 5 }}>
@@ -68,6 +85,7 @@ export const Banner = ({ className }: { className?: string }) => {
               <Button
                 onMouseOver={onMouseOver}
                 onMouseOut={onMouseOut}
+                onClick={jumpToProduct}
                 // flat
                 auto
                 rounded
