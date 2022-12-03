@@ -1,71 +1,165 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import Head from "next/head";
+import {
+  Navbar,
+  Text,
+  useTheme,
+  Dropdown,
+  Avatar,
+  Input,
+  Image,
+} from "@nextui-org/react";
+import { Layout } from "../components/Layout";
+import { SearchIcon } from "../components/SearchIcon";
+import { useContext, useRef } from "react";
+import AppContext from "../components/Context";
 
 export default function Home() {
+  const { isDark } = useTheme();
+  const context = useContext<any>(AppContext);
+  const jumpToCompanyIntro = () => {
+    const {session} = context;
+    session.current &&
+    session.current.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
   return (
-    <div className={styles.container}>
+    <>
       <Head>
         <title>Ensim Energy</title>
         <meta name="description" content="Ensim Energy" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          精彩即将呈现！
-        </h1>
-
-        <p className={styles.description}>
-          <a href="https://nextjs.org">Ensim Energy</a> is Coming Soon!
-        </p>
-
-        {/* <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div> */}
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+      <Layout>
+        <Navbar
+          isCompact
+          variant="sticky"
+          shouldHideOnScroll
+          disableBlur
+          isBordered={isDark}
+          css={{
+            background: "$blue800", // colors.pink800
+            boxShadow: "$md", // shadows.md
+            color: "#ffffff",
+          }}
+          containerCss={{
+            background: "transparent !important", // colors.pink800
+          }}
         >
-          Powered by{' '}
-          <span className={styles.logo}>
-            150w studio
-            {/* <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} /> */}
-          </span>
-        </a>
-      </footer>
-    </div>
-  )
+          <Navbar.Brand css={{ mr: "$4" }}>
+            <Image
+              src="/logo.png"
+              objectFit="cover"
+              alt="Default Image"
+              height={43}
+              width="100%"
+              css={{ paddingRight: 24 }}
+            />
+            
+            <Navbar.Content
+              enableCursorHighlight
+              activeColor="primary"
+              hideIn="xs"
+              variant="highlight-rounded"
+            >
+              <Navbar.Link href="#" onClick={jumpToCompanyIntro}>About Ensim Energy</Navbar.Link>
+              <Navbar.Link href="#">Energy</Navbar.Link>
+              <Navbar.Link href="#">Contact Us</Navbar.Link>
+              <Navbar.Link href="#">Social Media</Navbar.Link>
+            </Navbar.Content>
+          </Navbar.Brand>
+          {/* <Navbar.Content>
+            <Navbar.Link color="inherit" href="#">
+              Login
+            </Navbar.Link>
+            <Navbar.Item>
+              <Button auto flat as={Link} href="#">
+                Sign Up
+              </Button>
+            </Navbar.Item>
+          </Navbar.Content> */}
+          <Navbar.Content
+            css={{
+              "@xsMax": {
+                w: "100%",
+                jc: "space-between",
+              },
+            }}
+          >
+            <Navbar.Item
+              css={{
+                "@xsMax": {
+                  w: "100%",
+                  jc: "center",
+                },
+              }}
+            >
+              <Input
+                clearable
+                contentLeft={
+                  <SearchIcon fill="var(--nextui-colors-accents6)" size={16} />
+                }
+                contentLeftStyling={false}
+                css={{
+                  w: "100%",
+                  "@xsMax": {
+                    mw: "300px",
+                  },
+                  "& .nextui-input-content--left": {
+                    h: "100%",
+                    ml: "$4",
+                    dflex: "center",
+                  },
+                }}
+                placeholder="Search..."
+              />
+            </Navbar.Item>
+            <Dropdown placement="bottom-right">
+              <Navbar.Item>
+                <Dropdown.Trigger>
+                  <Avatar
+                    bordered
+                    as="button"
+                    color="primary"
+                    size="md"
+                    src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                  />
+                </Dropdown.Trigger>
+              </Navbar.Item>
+              <Dropdown.Menu
+                aria-label="User menu actions"
+                color="secondary"
+                onAction={(actionKey) => console.log({ actionKey })}
+              >
+                <Dropdown.Item key="profile" css={{ height: "$18" }}>
+                  <Text b color="inherit" css={{ d: "flex" }}>
+                    Signed in as
+                  </Text>
+                  <Text b color="inherit" css={{ d: "flex" }}>
+                    zoey@example.com
+                  </Text>
+                </Dropdown.Item>
+                <Dropdown.Item key="settings" withDivider>
+                  My Settings
+                </Dropdown.Item>
+                <Dropdown.Item key="team_settings">Team Settings</Dropdown.Item>
+                <Dropdown.Item key="analytics" withDivider>
+                  Analytics
+                </Dropdown.Item>
+                <Dropdown.Item key="system">System</Dropdown.Item>
+                <Dropdown.Item key="configurations">
+                  Configurations
+                </Dropdown.Item>
+                <Dropdown.Item key="help_and_feedback" withDivider>
+                  Help & Feedback
+                </Dropdown.Item>
+                <Dropdown.Item key="logout" withDivider color="error">
+                  Log Out
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </Navbar.Content>
+        </Navbar>
+      </Layout>
+    </>
+  );
 }
